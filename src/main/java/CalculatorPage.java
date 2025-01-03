@@ -45,7 +45,7 @@ public class CalculatorPage implements WebDriverProvider {
     SelenideElement resultField = $(AppiumBy.xpath("//android.widget.EditText[@resource-id=\"com.sourav.mohanty.calculator:id/newNumber\"]"));
 
     //Methods
-    @Step("Get result of operation")
+    @Step("Get the result of the operation")
     public String getResult() {
         return resultField.text();
     }
@@ -57,11 +57,11 @@ public class CalculatorPage implements WebDriverProvider {
     public void clickClearButton() {
         clearButton.click();
     }
-    @Step("Get result")
+    @Step("Get the result")
     public void clickEqualButton() {
         equalButton.click();
     }
-    @Step("Fill text field with value: '{value}'")
+    @Step("Fill the text field with a value: '{value}'")
     public void fillTextField(String value) {
         textField.val(value);
     }

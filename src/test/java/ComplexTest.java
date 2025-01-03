@@ -1,14 +1,20 @@
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class ComplexTest {
-    @Test(dependsOnMethods = {"DivideTest.divideTest"})
-    public void complexTest() throws InterruptedException {
+    public  static String expression = System.getProperty("Expression","1 + 45 + 3 * 10 / 3");
+    @DataProvider(name = "Expression")
+    public Object[] expressions() {
+        return new Object[]{expression};
+    }
+    @Test(dependsOnMethods = {"DivideTest.divideTest"},dataProvider = "Expression")
+    public void complexTest(String exp) throws InterruptedException {
         CalculatorPage calculatorPage = new CalculatorPage();
         calculatorPage.clickClearButton();
 
-        calculatorPage.complexOperation("2","2","1","3","2");
+        calculatorPage.complexOperation(exp);
 
-        Assert.assertEquals(calculatorPage.getResult(),"4.5");
+        Assert.assertEquals(calculatorPage.getResult(),"163.33333333333334");
     }
 }

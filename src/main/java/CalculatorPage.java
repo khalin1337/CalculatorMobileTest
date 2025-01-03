@@ -109,17 +109,24 @@ public class CalculatorPage implements WebDriverProvider {
         fillTextField(value2);
         clickEqualButton();
     }
-    @Step("Complex operation with {value1} , {value2} , {value3} , {value4} and {value5}")
-    public void complexOperation(String value1, String value2, String value3, String value4, String value5) {
-        fillTextField(value1);
-        clickPlusButton();
-        fillTextField(value2);
-        clickMinusButton();
-        fillTextField(value3);
-        clickMultipleButton();
-        fillTextField(value4);
-        clickDivideButton();
-        fillTextField(value5);
+    @Step("Complex operation with expression: {expression}")
+    public void complexOperation(String expression) {
+
+        String[] tokens = expression.split(" ");
+
+        for (String token : tokens) {
+            if (token.matches("\\d+")) {
+                fillTextField(token);
+            } else {
+                switch (token) {
+                    case "+" -> clickPlusButton();
+                    case "-" -> clickMinusButton();
+                    case "*" -> clickMultipleButton();
+                    case "/" -> clickDivideButton();
+                    default -> throw new IllegalArgumentException("Unsupported operator: " + token);
+                }
+            }
+        }
         clickEqualButton();
     }
 

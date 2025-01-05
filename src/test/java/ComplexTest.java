@@ -3,7 +3,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class ComplexTest {
-    public  static String expression = System.getProperty("Expression","1 + 45 + 3 * 10 / 3");
+    public  static String expression = System.getProperty("Expression","1 + 45 + 3 * 10 / 3 - 6 * 5");
     @DataProvider(name = "Expression")
     public Object[] expressions() {
         return new Object[]{expression};
@@ -13,8 +13,8 @@ public class ComplexTest {
         CalculatorPage calculatorPage = new CalculatorPage();
         calculatorPage.clickClearButton();
 
-        calculatorPage.complexOperation(exp);
+        String result = calculatorPage.complexOperation(exp);
 
-        Assert.assertEquals(calculatorPage.getResult(),"163.33333333333334");
+        Assert.assertEquals(result,"26.0");
     }
 }

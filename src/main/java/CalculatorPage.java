@@ -8,6 +8,8 @@ import io.qameta.allure.Step;
 import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -110,24 +112,61 @@ public class CalculatorPage implements WebDriverProvider {
         clickEqualButton();
     }
     @Step("Complex operation with expression: {expression}")
-    public void complexOperation(String expression) {
+    public String complexOperation(String expression) {
+            //Split the expressions on tokens(Operands and operators)
+            List<String> tokens = new ArrayList<>(List.of(expression.split(" ")));
+            String result="";
 
-        String[] tokens = expression.split(" ");
+            //Do a multiplication and divide operations
+            for (int i = 0; i < tokens.size(); i++) {
+                String token = tokens.get(i);
+                if (token.equals("*") || token.equals("/")) {
+                    String leftOperand = tokens.get(i - 1);
+                    String rightOperand = tokens.get(i + 1);
 
-        for (String token : tokens) {
-            if (token.matches("\\d+")) {
-                fillTextField(token);
-            } else {
-                switch (token) {
-                    case "+" -> clickPlusButton();
-                    case "-" -> clickMinusButton();
-                    case "*" -> clickMultipleButton();
-                    case "/" -> clickDivideButton();
-                    default -> throw new IllegalArgumentException("Unsupported operator: " + token);
+                    fillTextField(leftOperand);
+                    if (token.equals("*")) {
+                        clickMultipleButton();
+                    } else {
+                        clickDivideButton();
+                    }
+                    fillTextField(rightOperand);
+                    clickEqualButton();
+
+                    result = getResult();
+                    tokens.set(i - 1, result);
+                    tokens.remove(i);
+                    tokens.remove(i);
+                    i -= 1;
+                    clickClearButton();
                 }
             }
-        }
-        clickEqualButton();
+
+            //Do a summary and subtraction operations
+            for (int i = 0; i < tokens.size(); i++) {
+                String token = tokens.get(i);
+                if (token.equals("+") || token.equals("-")) {
+                    String leftOperand = tokens.get(i - 1);
+                    String rightOperand = tokens.get(i + 1);
+
+                    fillTextField(leftOperand);
+                    if (token.equals("+")) {
+                        clickPlusButton();
+                    } else {
+                        clickMinusButton();
+                    }
+                    fillTextField(rightOperand);
+                    clickEqualButton();
+
+                    result = getResult();
+                    tokens.set(i - 1, result);
+                    tokens.remove(i);
+                    tokens.remove(i);
+                    i -= 1;
+                    clickClearButton();
+                }
+            }
+            return result;
     }
 
 }

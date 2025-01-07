@@ -1,3 +1,4 @@
+import browserstack.shaded.org.eclipse.jgit.annotations.NonNull;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverProvider;
 import io.appium.java_client.AppiumBy;
@@ -5,16 +6,15 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.AutomationName;
 import io.qameta.allure.Step;
-import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import java.util.ArrayList;
-import java.util.List;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.codeborne.selenide.appium.SelenideAppium.*;
+import static com.codeborne.selenide.appium.SelenideAppium.$;
 
 public class CalculatorPage implements WebDriverProvider {
 
@@ -34,6 +34,73 @@ public class CalculatorPage implements WebDriverProvider {
             throw new RuntimeException(e);
         }
     }
+    /*
+    public RemoteWebDriver driver;
+    public static String userName, accessKey;
+    public static Map<String, Object> browserStackYamlMap;
+    public static final String USER_DIR = "user.dir";
+
+    public CalculatorPage() {
+        File file = new File(getUserDir() + "/browserstack.yml");
+        this.browserStackYamlMap = convertYamlFileToMap(file, new HashMap<>());
+        userName = System.getenv("BROWSERSTACK_USERNAME") != null ? System.getenv("BROWSERSTACK_USERNAME") : (String) browserStackYamlMap.get("userName");
+        accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY") != null ? System.getenv("BROWSERSTACK_ACCESS_KEY") : (String) browserStackYamlMap.get("accessKey");
+    }
+
+    //@BeforeMethod(alwaysRun = true)
+    public void setUp() throws Exception {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        HashMap<String, Object> bstackOptions = new HashMap<>();
+        bstackOptions.put("source", "selenide:sample-master:v1.2");
+        System.out.println(bstackOptions);
+        capabilities.setCapability("bstack:options", bstackOptions);
+        driver = new RemoteWebDriver(new URL(String.format("https://%s:%s@hub-cloud.browserstack.com/wd/hub", userName, accessKey)), capabilities);
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebDriverRunner.setWebDriver(driver);
+    }
+
+    //@AfterMethod(alwaysRun = true)
+    public void tearDown() {
+        WebDriverRunner.getWebDriver().quit();
+    }
+
+    private String getUserDir() {
+        return System.getProperty(USER_DIR);
+    }
+
+    private Map<String, Object> convertYamlFileToMap(File yamlFile, Map<String, Object> map) {
+        try {
+            InputStream inputStream = Files.newInputStream(yamlFile.toPath());
+            Yaml yaml = new Yaml();
+            Map<String, Object> config = yaml.load(inputStream);
+            map.putAll(config);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Malformed browserstack.yml file - %s.", e));
+        }
+        return map;
+    }*/
+    /*public RemoteWebDriver driver;
+    @NonNull
+    @Override
+    public WebDriver createDriver(@NonNull Capabilities capabilities) {
+        MutableCapabilities caps = new MutableCapabilities();
+        caps.setCapability("deviceName","Samsung Galaxy S22 Ultra");
+        caps.setCapability("os_version","12.0");
+        caps.setCapability("os","android");
+        caps.setCapability("app","bs://02f9aaaf677c50777c3cf08039e8d8df26890551");
+        caps.setCapability("source","testng:appium-intellij:v1.1.6");
+        caps.setCapability("projectName","BrowserStack Sample");
+        caps.setCapability("buildName","browserstack build");
+        try {
+            driver = new RemoteWebDriver(new URL(String.format("https://%s:%s@hub-cloud.browserstack.com/wd/hub", "yevhenkhalin_o6uJ0X", "ieXJWCsqNb2Dis6gwvUm")), caps);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebDriverRunner.setWebDriver(driver);
+        return driver;
+    }
+*/
 
     //Locators
     SelenideElement startInfoButton = $(AppiumBy.xpath("//android.widget.Button[@resource-id=\"android:id/button1\"]"));
